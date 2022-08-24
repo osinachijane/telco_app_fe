@@ -132,10 +132,10 @@ const Home = () => {
     try {
       const res = await apiService.postVerifyOtp(otp, sessionId);
       setLoading(false);
-      setCode(res.data.data.code);
+      setCode(res?.data?.data?.code);
     } catch (error) {
       setLoading(false);
-      setError(error.response.data.message);
+      setError(error?.response?.data?.message);
     }
   };
 
