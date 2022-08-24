@@ -1,38 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  color: #292b2b;
+}
+
 .App {
-  text-align: center;
+  position: relative;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1.logo {
+  position: absolute;
+  top: -80px;
+  left: 30px;
+  color: #fff;
+  font-size: 38px;
+  cursor: pointer;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  background-color: #000;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  font-size: 14px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 900px;
   display: flex;
   flex-direction: column;
+  border-radius: 18px;
+  margin-top: 100px;
+  padding: 50px;
+  background-color: #fff;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+form {
+  margin-top: 30px;
+  width: 400px;
+}
+
+form .button {
+  margin-top: 20px;
+}
+
+form .button-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.overview-wrapper {
+  margin-top: 30px;
+}
+
+.overview-info {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 30px;
+  margin-bottom: 20px;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.overview-info p {
+  font-size: 16px;
 }
