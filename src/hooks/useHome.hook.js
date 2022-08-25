@@ -6,6 +6,7 @@ const useHome = () => {
   const [form3, setForm3] = useState(false);
   const [overView, setOverview] = useState(false);
   const [tranx, setTranx] = useState(false);
+  const [identity, setIdentity] = useState(false);
 
   const onNext1 = () => {
     setForm1(false);
@@ -32,14 +33,24 @@ const useHome = () => {
     setOverview(true);
   };
 
+  const onPrev3 = () => {
+    setTranx(false);
+    setOverview(true);
+  };
+
   const onNext4 = () => {
     setOverview(false);
     setTranx(true);
   };
 
-  const onPrev3 = () => {
-    setTranx(false);
+  const onPrev4 = () => {
+    setIdentity(false);
     setOverview(true);
+  };
+
+  const onNext5 = () => {
+    setOverview(false);
+    setIdentity(true);
   };
 
   const reset = () => {
@@ -56,13 +67,16 @@ const useHome = () => {
     form3,
     overView,
     tranx,
+    identity,
     onNext1,
     onNext2,
     onNext3,
     onNext4,
+    onNext5,
     onPrev1,
     onPrev2,
     onPrev3,
+    onPrev4,
     reset,
   };
 };

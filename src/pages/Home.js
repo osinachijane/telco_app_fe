@@ -28,6 +28,8 @@ const Home = () => {
   const [data, setData] = useState([]);
 
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [error, setError] = useState(false);
 
   const {
@@ -36,13 +38,16 @@ const Home = () => {
     form3,
     overView,
     tranx,
+    identity,
     onNext1,
     onNext2,
     onNext3,
     onNext4,
+    onNext5,
     onPrev1,
     onPrev2,
     onPrev3,
+    onPrev4,
     reset,
   } = useHome();
 
@@ -83,27 +88,40 @@ const Home = () => {
   };
 
   const getBalanceDetails = async () => {
-    setLoading(true);
+    setLoading2(true);
     setError(false);
     try {
       const res = await apiService.getBalances(accountId);
-      console.log(res.data);
-      setLoading(false);
+      setData(res.data);
+      setLoading2(false);
       onNext2();
     } catch (error) {
-      setLoading(false);
+      setLoading2(false);
       setError(error.response.data.message);
     }
   };
 
   const getTransactions = async () => {
-    setLoading(true);
+    setLoading1(true);
     setError(false);
     try {
       const res = await apiService.getTransactions(accountId);
       setData(res.data);
-      setLoading(false);
+      setLoading1(false);
       onNext4();
+    } catch (error) {
+      setLoading1(false);
+      setError(error.response.data.message);
+    }
+  };
+  const getIdentity = async () => {
+    setLoading(true);
+    setError(false);
+    try {
+      const res = await apiService.getIdentity(accountId);
+      setData(res.data);
+      setLoading(false);
+      onNext5();
     } catch (error) {
       setLoading(false);
       setError(error.response.data.message);
@@ -200,7 +218,7 @@ const Home = () => {
           )}
           {overView && (
             <>
-              <h1>Overview</h1>
+              <h1>Account Details</h1>
               <p>This is an overview of your MTN account:</p>
               <br />
               {error && <small style={{ color: "red" }}>{error}</small>}
@@ -247,14 +265,20 @@ const Home = () => {
                 <div className="button-wrapper">
                   <Button
                     type="submit"
-                    label="Balance Details"
+                    label={loading2 ? "loading" : "Balance Details"}
                     onClick={getBalanceDetails}
                     style={{ marginRight: 25 }}
                   />
                   <Button
                     type="submit"
-                    label={loading ? "Loading..." : "Transactions"}
+                    label={loading1 ? "Loading..." : "Transactions"}
                     onClick={getTransactions}
+                    style={{ marginRight: 25 }}
+                  />
+                  <Button
+                    type="submit"
+                    label={loading ? "Loading..." : "Identity"}
+                    onClick={getIdentity}
                   />
                 </div>
               </div>
@@ -262,33 +286,43 @@ const Home = () => {
           )}
           {form3 && (
             <>
-              <h1>Transaction Balance Data</h1>
-              <p>Kindly select the transaction balance data you require:</p>
-              <form>
-                {error && <small style={{ color: "red" }}>{error}</small>}
-                <Select label="Transaction Balance Data">
-                  <option>Main Balance</option>
-                  <option>Roaming Bundle</option>
-                  <option>GoodyBag Social Bundle</option>
-                </Select>
-                <div className="button-wrapper">
-                  <Button
-                    onClick={onPrev2}
-                    type="submit"
-                    label="Prev"
-                    style={{ marginRight: 25 }}
-                  />
-                </div>
-              </form>
+              <h1>Balance Details</h1>
+              <p>Kindly select the balance details data you require:</p>
+              <br />
+              {error && <small style={{ color: "red" }}>{error}</small>}
+              <table>
+                <tr>
+                  <th>S/N</th>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Balance</th>
+                </tr>
+                {data?.map((balance, i) => {
+                  return (
+                    <tr key={i + 1}>
+                      <td>{i + 1}</td>
+                      <td>{balance.name}</td>
+                      <td>{balance.type}</td>
+                      <td>
+                        {(balance.value / 100).toLocaleString()}
+                        <span style={{ textTransform: "uppercase" }}>
+                          &nbsp;{balance.unit}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </table>
+              <br />
+              <Button onClick={onPrev2} type="submit" label="Go Back" />
             </>
           )}
           {tranx && (
             <>
-              <h1>Telco Transactions</h1>
-              <p>This is an overview of your Telco transactions:</p>
+              <h1>Transactions</h1>
+              <p>This is an overview of your transactions:</p>
               <br />
               {error && <small style={{ color: "red" }}>{error}</small>}
-              {console.log(data)}
               <table>
                 <tr>
                   <th>S/N</th>
@@ -318,6 +352,72 @@ const Home = () => {
               </table>
               <br />
               <Button onClick={onPrev3} type="submit" label="Go Back" />
+            </>
+          )}
+          {identity && (
+            <>
+              <h1>Identity Details</h1>
+              <p>This is an overview of your Identity:</p>
+              <br />
+              {error && <small style={{ color: "red" }}>{error}</small>}
+              <div className="overview-wrapper">
+                <div className="overview-info">
+                  <AiOutlineNumber fill="#000" fontSize={22} />
+                  <p>
+                    <b>Fullname:</b> {data.fullName}
+                  </p>
+                </div>
+                <div className="overview-info">
+                  <AiOutlineNumber fill="#000" fontSize={22} />
+                  <p>
+                    <b>Gender:</b> {data.gender}
+                  </p>
+                </div>
+                <div className="overview-info">
+                  <AiOutlineNumber fill="#000" fontSize={22} />
+                  <p>
+                    <b>Date of Birth:</b> {data.dob.split("00:00")[0]}
+                  </p>
+                </div>
+                <div className="overview-info">
+                  <AiOutlineNumber fill="#000" fontSize={22} />
+                  <p>
+                    <b>Marital Status:</b> {data.maritalStatus}
+                  </p>
+                </div>
+                <div className="overview-info">
+                  <AiOutlineNumber fill="#000" fontSize={22} />
+                  <p>
+                    <b>Phone Number:</b>
+                    {data.phone}
+                  </p>
+                </div>
+                <div className="overview-info">
+                  <AiOutlineNumber fill="#000" fontSize={22} />
+                  <p>
+                    <b>BVN:</b> {data.bvn || "N/A"}
+                  </p>
+                </div>
+                <div className="overview-info">
+                  <AiOutlineNumber fill="#000" fontSize={22} />
+                  <p>
+                    <b>Address:</b>{" "}
+                    {`${data.addressLine1}, ${data.addressLine2}`}
+                  </p>
+                </div>
+
+                <div className="overview-info">
+                  <AiOutlineNumber fill="#000" fontSize={22} />
+                  <p>
+                    <b>Created At:</b>{" "}
+                    {new Date(Date.parse(data.created_at)).toUTCString()}
+                  </p>
+                </div>
+                <br />
+                <div className="button-wrapper">
+                  <Button onClick={onPrev4} type="submit" label="Go Back" />
+                </div>
+              </div>
             </>
           )}
         </div>

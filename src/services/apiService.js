@@ -63,4 +63,12 @@ export default {
       headers: this.headers(),
     });
   },
+
+  getIdentity(id) {
+    return axios({
+      method: "get",
+      url: `${this.url}/accounts/${id}/identity`,
+      headers: this.headers(),
+    });
+  },
 };
