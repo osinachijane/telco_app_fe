@@ -364,32 +364,32 @@ const Home = () => {
                 <div className="overview-info">
                   <AiOutlineNumber fill="#000" fontSize={22} />
                   <p>
-                    <b>Fullname:</b> {data.fullName}
+                    <b>Fullname:</b> {data.fullName || "N/A"}
                   </p>
                 </div>
                 <div className="overview-info">
                   <AiOutlineNumber fill="#000" fontSize={22} />
                   <p>
-                    <b>Gender:</b> {data.gender}
+                    <b>Gender:</b> {data.gender || "N/A"}
                   </p>
                 </div>
                 <div className="overview-info">
                   <AiOutlineNumber fill="#000" fontSize={22} />
                   <p>
-                    <b>Date of Birth:</b> {data.dob.split("00:00")[0]}
+                    <b>Date of Birth:</b> {data.dob?.split("00:00")[0] || "N/A"}
                   </p>
                 </div>
                 <div className="overview-info">
                   <AiOutlineNumber fill="#000" fontSize={22} />
                   <p>
-                    <b>Marital Status:</b> {data.maritalStatus}
+                    <b>Marital Status:</b> {data.maritalStatus || "N/A"}
                   </p>
                 </div>
                 <div className="overview-info">
                   <AiOutlineNumber fill="#000" fontSize={22} />
                   <p>
                     <b>Phone Number:</b>
-                    {data.phone}
+                    {data.phone || "N/A"}
                   </p>
                 </div>
                 <div className="overview-info">
@@ -402,7 +402,9 @@ const Home = () => {
                   <AiOutlineNumber fill="#000" fontSize={22} />
                   <p>
                     <b>Address:</b>{" "}
-                    {`${data.addressLine1}, ${data.addressLine2}`}
+                    {`${data.addressLine1 || "N/A"}, ${
+                      data.addressLine2 || ""
+                    }`}
                   </p>
                 </div>
 
