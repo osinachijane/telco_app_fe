@@ -226,7 +226,10 @@ const Home = () => {
                 <div className="overview-info">
                   <GiNetworkBars fill="#000" fontSize={22} />
                   <p>
-                    <b>Provider:</b> {accountInfo.institution?.name}
+                    <b>Provider:</b>{" "}
+                    <span style={{ textTransform: "uppercase" }}>
+                      {accountInfo.institution?.name}
+                    </span>
                   </p>
                 </div>
                 <div className="overview-info">
