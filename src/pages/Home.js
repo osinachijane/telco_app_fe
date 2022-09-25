@@ -26,6 +26,7 @@ const Home = () => {
   const [accountId, setAccountId] = useState("");
   const [accountInfo, setAccountInfo] = useState({});
   const [data, setData] = useState([]);
+  const [creditScore, setCreditScore] = useState(0);
 
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -57,6 +58,17 @@ const Home = () => {
 
   const handleChange1 = (e) => {
     setFormData1({ ...formData1, [e.target.name]: e.target.value });
+  };
+
+  const getCreditScore = (data) => {
+    const credit_tranx = data.filter((tranx) => tranx.type === "credit");
+
+    const credit_score =
+      credit_tranx
+        .map((tranx) => tranx.amount / 100)
+        .reduce((a, b) => a + b, 0) / credit_tranx.length;
+
+    return +credit_score.toFixed(2);
   };
 
   const getAccountId = async (code) => {
@@ -107,6 +119,7 @@ const Home = () => {
     try {
       const res = await apiService.getTransactions(accountId);
       setData(res.data);
+      setCreditScore(getCreditScore(res.data));
       setLoading1(false);
       onNext4();
     } catch (error) {
@@ -324,6 +337,7 @@ const Home = () => {
             <>
               <h1>Transactions</h1>
               <p>This is an overview of your transactions:</p>
+              <h4>Credit Score: {creditScore || "N/A"}</h4>
               <br />
               {error && <small style={{ color: "red" }}>{error}</small>}
               <table>
