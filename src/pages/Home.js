@@ -118,8 +118,8 @@ const Home = () => {
     setError(false);
     try {
       const res = await apiService.getTransactions(accountId);
-      setData(res.data);
-      setCreditScore(getCreditScore(res.data));
+      setData(res?.data);
+      setCreditScore(getCreditScore(res.data?.data));
       setLoading1(false);
       onNext4();
     } catch (error) {
